@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="18.0.2.1" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>wsdr</string>
+    </void>
+    <void property="id">
+     <int>11</int>
+    </void>
+    <void property="lastName">
+     <string>f</string>
+    </void>
+    <void property="middleName">
+     <string>qdf</string>
+    </void>
+    <void property="name">
+     <string>sdf</string>
+    </void>
+    <void property="phoneNumber">
+     <int>123456</int>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>wsdr</string>
+    </void>
+    <void property="id">
+     <int>11</int>
+    </void>
+    <void property="lastName">
+     <string>f</string>
+    </void>
+    <void property="middleName">
+     <string>qdf</string>
+    </void>
+    <void property="name">
+     <string>sdf</string>
+    </void>
+    <void property="phoneNumber">
+     <int>123456</int>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>wsdr</string>
+    </void>
+    <void property="id">
+     <int>11</int>
+    </void>
+    <void property="lastName">
+     <string>f</string>
+    </void>
+    <void property="middleName">
+     <string>qdf</string>
+    </void>
+    <void property="name">
+     <string>sdf</string>
+    </void>
+    <void property="phoneNumber">
+     <int>123456</int>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>wsdr</string>
+    </void>
+    <void property="id">
+     <int>11</int>
+    </void>
+    <void property="lastName">
+     <string>f</string>
+    </void>
+    <void property="middleName">
+     <string>qdf</string>
+    </void>
+    <void property="name">
+     <string>sdf</string>
+    </void>
+    <void property="phoneNumber">
+     <int>123456</int>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>
