@@ -151,5 +151,55 @@
     </void>
    </object>
   </void>
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>Герасименки</string>
+    </void>
+    <void property="age">
+     <int>21</int>
+    </void>
+    <void property="id">
+     <int>7</int>
+    </void>
+    <void property="lastName">
+     <string>Жуков</string>
+    </void>
+    <void property="middleName">
+     <string>Анатольевич</string>
+    </void>
+    <void property="name">
+     <string>Матвей</string>
+    </void>
+    <void property="phoneNumber">
+     <int>938491</int>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>Бобруйская</string>
+    </void>
+    <void property="age">
+     <int>19</int>
+    </void>
+    <void property="id">
+     <int>8</int>
+    </void>
+    <void property="lastName">
+     <string>Туркина</string>
+    </void>
+    <void property="middleName">
+     <string>Вадимовна</string>
+    </void>
+    <void property="name">
+     <string>Алиса</string>
+    </void>
+    <void property="phoneNumber">
+     <int>648392</int>
+    </void>
+   </object>
+  </void>
  </object>
 </java>

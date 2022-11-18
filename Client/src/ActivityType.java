@@ -5,7 +5,6 @@ public enum ActivityType {
     Create,
     Update;
 
-
     public static ActivityType ConvertIntToActivityType(int activity) {
         return switch (activity) {
             case 0 -> ActivityType.Exit;

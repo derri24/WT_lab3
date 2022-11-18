@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class SocketProvider implements BaseProvider {
-
     private Socket client;
 
     private void connect() {
@@ -21,35 +20,26 @@ public class SocketProvider implements BaseProvider {
     }
 
     public void update(File file) {
-        OutputStream outToServer;
         try {
-            outToServer = client.getOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
+            DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream());
             dataOutputStream.writeUTF("UPDATE");
 
             var fileBytes = ByteSerializer.serialize(file);
-            DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            out.writeInt(fileBytes.length);
-            out.write(fileBytes);
-
+            dataOutputStream.writeInt(fileBytes.length);
+            dataOutputStream.write(fileBytes);
 
         } catch (IOException ignored) {
         }
     }
 
     public void create(File file) {
-        OutputStream outToServer;
         try {
-            outToServer = client.getOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
+            DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream());
             dataOutputStream.writeUTF("CREATE");
 
             var fileBytes = ByteSerializer.serialize(file);
-            DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            out.writeInt(fileBytes.length);
-            out.write(fileBytes);
-
-
+            dataOutputStream.writeInt(fileBytes.length);
+            dataOutputStream.write(fileBytes);
         } catch (IOException ignored) {
         }
 
@@ -58,17 +48,15 @@ public class SocketProvider implements BaseProvider {
     public File read(int id) {
         File file = null;
         try {
-            OutputStream outToServer = client.getOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
+            DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream());
             dataOutputStream.writeUTF("READ");
             dataOutputStream.writeInt(id);
 
-            InputStream inFromServer = client.getInputStream();
-            DataInputStream dataInputStream = new DataInputStream(inFromServer);
-            int length = dataInputStream.readInt();                    // read length of incoming message
+            DataInputStream dataInputStream = new DataInputStream(client.getInputStream());
+            int length = dataInputStream.readInt();
             if (length > 0) {
                 byte[] result = new byte[length];
-                dataInputStream.readFully(result, 0, result.length); // read the message
+                dataInputStream.readFully(result, 0, result.length);
                 file = (File) ByteSerializer.deserialize(result);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -81,12 +69,10 @@ public class SocketProvider implements BaseProvider {
     public ArrayList<String> readHeaders() {
         ArrayList<String> headers = new ArrayList<String>();
         try {
-            OutputStream outToServer = client.getOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
+            DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream());
             dataOutputStream.writeUTF("READ_HEADERS");
 
-            InputStream inFromServer = client.getInputStream();
-            DataInputStream dataInputStream = new DataInputStream(inFromServer);
+            DataInputStream dataInputStream = new DataInputStream(client.getInputStream());
             int length = dataInputStream.readInt();                    // read length of incoming message
             if (length > 0) {
                 byte[] result = new byte[length];

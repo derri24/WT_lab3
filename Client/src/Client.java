@@ -1,14 +1,12 @@
 import providers.SocketProvider;
 import entities.File;
-
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client {
-    public static int chooseAdministratorActivity() {
+    private static int chooseAdministratorActivity() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\nChoose activity: \n0.Exit\n1.Read headers\n2.Read\n3.Create\n4.Update");
+        System.out.println("\nChoose activity: \n0.Exit\n1.Read files of students\n2.Read\n3.Create\n4.Update");
         int activity = scanner.nextInt();
         if (activity == 0 || activity == 1 || activity == 2 || activity == 3 || activity == 4)
             return activity;
@@ -18,9 +16,9 @@ public class Client {
         }
     }
 
-    public static int chooseClientActivity() {
+    private static int chooseClientActivity() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\nChoose activity: \n0.Exit\n1.Read headers\n2.Read");
+        System.out.println("\nChoose activity: \n0.Exit\n1.Read files of students\n2.Read");
         int activity = scanner.nextInt();
         if (activity == 0 || activity == 1 || activity == 2)
             return activity;
@@ -29,10 +27,9 @@ public class Client {
             return chooseClientActivity();
         }
     }
-
     private static int role;
 
-    public static int chooseActivity() {
+    private static int chooseActivity() {
         Scanner scanner = new Scanner(System.in);
         role = scanner.nextInt();
         if (role == 1)
@@ -45,11 +42,6 @@ public class Client {
         }
     }
 
-    private static void printHeaders(ArrayList<String> headers) {
-        for (var header : headers)
-            System.out.println(header);
-    }
-
     private static int repeatChooseActivity() {
         int activity;
         if (role == 1)
@@ -59,8 +51,16 @@ public class Client {
         return activity;
     }
 
-    private static void printFile(File file) {
+    private static void printHeaders(ArrayList<String> headers) {
+        for (var header : headers)
+            System.out.println(header);
+    }
 
+    private static void printFile(File file) {
+        if (file == null) {
+            System.out.println("File with this id not exist!");
+            return;
+        }
         System.out.println("\nId: " + file.getId() +
                 "\nName: " + file.getName() +
                 "\nLast name: " + file.getLastName() +
@@ -124,7 +124,7 @@ public class Client {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         SocketProvider socketProvider = new SocketProvider();
 
@@ -134,7 +134,7 @@ public class Client {
         while (ActivityType.ConvertIntToActivityType(activity) != ActivityType.Exit) {
             if (ActivityType.ConvertIntToActivityType(activity) == ActivityType.ReadHeaders) {
                 var headers = socketProvider.readHeaders();
-                System.out.println("\nList of headers: ");
+                System.out.println("\nFiles of students: ");
                 printHeaders(headers);
                 activity = repeatChooseActivity();
             } else if (ActivityType.ConvertIntToActivityType(activity) == ActivityType.Read) {
