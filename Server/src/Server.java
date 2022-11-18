@@ -1,12 +1,9 @@
-
 import data.BaseRepository;
 import data.FileRepository;
 import entities.File;
 import serializers.ByteSerializer;
-
 import java.net.*;
 import java.io.*;
-import java.util.Scanner;
 
 public class Server extends Thread {
     private ServerSocket serverSocket;
@@ -17,14 +14,13 @@ public class Server extends Thread {
     }
 
     public void run() {
-        //System.out.println("Ожидание клиента на порт " + serverSocket.getLocalPort() + "...");
-        Socket server = null;
+        BaseRepository baseRepository = new FileRepository();
+        Socket server;
         try {
             server = serverSocket.accept();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        BaseRepository baseRepository = new FileRepository();
 
         while(true) {
             try {
@@ -44,30 +40,23 @@ public class Server extends Thread {
                     out.write(file);
                 }
                 else if (activity.equals("CREATE")){
-                    int length = in.readInt();                    // read length of incoming message
+                    int length = in.readInt();
                     if(length>0) {
                         byte[] result = new byte[length];
-                        in.readFully(result, 0, result.length); // read the message
+                        in.readFully(result, 0, result.length);
                         var file = (File)ByteSerializer.deserialize(result);
                         baseRepository.create(file);
-                        DataOutputStream out = new DataOutputStream(server.getOutputStream());
-                        //out.writeInt(0);
                     }
                 }
                 else if (activity.equals("UPDATE")){
-                    int length = in.readInt();                    // read length of incoming message
+                    int length = in.readInt();
                     if(length>0) {
                         byte[] result = new byte[length];
-                        in.readFully(result, 0, result.length); // read the message
+                        in.readFully(result, 0, result.length);
                         var file = (File)ByteSerializer.deserialize(result);
                         baseRepository.update(file);
-                        DataOutputStream out = new DataOutputStream(server.getOutputStream());
-                        //out.writeInt(0);
                     }
                 }
-                // int length = in.readInt();
-
-
 
             } catch (SocketTimeoutException s) {
                 System.out.println("Время сокета истекло!");

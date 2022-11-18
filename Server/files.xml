@@ -126,5 +126,30 @@
     </void>
    </object>
   </void>
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>Дзержинского</string>
+    </void>
+    <void property="age">
+     <int>19</int>
+    </void>
+    <void property="id">
+     <int>6</int>
+    </void>
+    <void property="lastName">
+     <string>Фурсов</string>
+    </void>
+    <void property="middleName">
+     <string>Матвеевич</string>
+    </void>
+    <void property="name">
+     <string>Вадим</string>
+    </void>
+    <void property="phoneNumber">
+     <int>346628</int>
+    </void>
+   </object>
+  </void>
  </object>
 </java>
