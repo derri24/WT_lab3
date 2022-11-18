@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public interface BaseProvider {
 
-    void update();
-    void create();
+    void update(File file);
+    void create(File file);
     File read(int id);
     ArrayList<String> readHeaders();
 

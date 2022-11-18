@@ -4,88 +4,125 @@
   <void method="add">
    <object class="entities.File">
     <void property="address">
-     <string>wsdr</string>
+     <string>Михалова 5</string>
+    </void>
+    <void property="age">
+     <int>18</int>
     </void>
     <void property="id">
-     <int>11</int>
+     <int>1</int>
     </void>
     <void property="lastName">
-     <string>f</string>
+     <string>Клименко</string>
     </void>
     <void property="middleName">
-     <string>qdf</string>
+     <string>Николаевич</string>
     </void>
     <void property="name">
-     <string>sdf</string>
+     <string>Кирилл</string>
     </void>
     <void property="phoneNumber">
-     <int>123456</int>
+     <int>3388472</int>
     </void>
    </object>
   </void>
   <void method="add">
    <object class="entities.File">
     <void property="address">
-     <string>wsdr</string>
+     <string>Дубровского 74</string>
+    </void>
+    <void property="age">
+     <int>19</int>
     </void>
     <void property="id">
-     <int>11</int>
+     <int>2</int>
     </void>
     <void property="lastName">
-     <string>f</string>
+     <string>Кузнецов</string>
     </void>
     <void property="middleName">
-     <string>qdf</string>
+     <string>Максимович</string>
     </void>
     <void property="name">
-     <string>sdf</string>
+     <string>Александр</string>
     </void>
     <void property="phoneNumber">
-     <int>123456</int>
+     <int>473925</int>
     </void>
    </object>
   </void>
   <void method="add">
    <object class="entities.File">
     <void property="address">
-     <string>wsdr</string>
+     <string>Минская 13</string>
+    </void>
+    <void property="age">
+     <int>20</int>
     </void>
     <void property="id">
-     <int>11</int>
+     <int>3</int>
     </void>
     <void property="lastName">
-     <string>f</string>
+     <string>Мирова</string>
     </void>
     <void property="middleName">
-     <string>qdf</string>
+     <string>Александровна</string>
     </void>
     <void property="name">
-     <string>sdf</string>
+     <string>Анастасия</string>
     </void>
     <void property="phoneNumber">
-     <int>123456</int>
+     <int>7262377</int>
     </void>
    </object>
   </void>
   <void method="add">
    <object class="entities.File">
     <void property="address">
-     <string>wsdr</string>
+     <string>Гикало 2</string>
+    </void>
+    <void property="age">
+     <int>2</int>
     </void>
     <void property="id">
-     <int>11</int>
+     <int>4</int>
     </void>
     <void property="lastName">
-     <string>f</string>
+     <string>Кородкина</string>
     </void>
     <void property="middleName">
-     <string>qdf</string>
+     <string>Алексеевна</string>
     </void>
     <void property="name">
-     <string>sdf</string>
+     <string>Мария</string>
     </void>
     <void property="phoneNumber">
-     <int>123456</int>
+     <int>9002371</int>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="entities.File">
+    <void property="address">
+     <string>Якуба Коласа 3</string>
+    </void>
+    <void property="age">
+     <int>19</int>
+    </void>
+    <void property="id">
+     <int>5</int>
+    </void>
+    <void property="lastName">
+     <string>Солтан</string>
+    </void>
+    <void property="middleName">
+     <string>Дмитриевна</string>
+    </void>
+    <void property="name">
+     <string>Алена</string>
+    </void>
+    <void property="phoneNumber">
+     <int>483621</int>
     </void>
    </object>
   </void>

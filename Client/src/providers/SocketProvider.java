@@ -3,29 +3,19 @@ package providers;
 import entities.File;
 import serializer.ByteSerializer;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class SocketProvider implements BaseProvider {
 
     private Socket client;
-    private DataOutputStream dataOutputStream;
-    private DataInputStream dataInputStream;
-
     private void connect() {
         try {
             String serverName = "localhost";
-            int port = 6665;
-            client = new Socket(serverName, port);
-            OutputStream outToServer = client.getOutputStream();
-            dataOutputStream = new DataOutputStream(outToServer);
+            int port = 6666;
+             client = new Socket(serverName, port);
 
-            InputStream inFromServer = client.getInputStream();
-            dataInputStream = new DataInputStream(inFromServer);
         } catch (Exception ex) {
 
         }
@@ -35,44 +25,96 @@ public class SocketProvider implements BaseProvider {
         connect();
     }
 
-//    public void finalize() {
-//        try {
-//            client.close();
-//        } catch (Exception ex) {
-//
-//        }
-//
-////statements like the closure of database connection
-//    }
+    public void update(File file) {
+        OutputStream outToServer = null;
+        try {
+            outToServer = client.getOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
+            dataOutputStream.writeUTF("UPDATE");
 
-    public void update() {
+            var fileBytes= ByteSerializer.serialize(file);
+            DataOutputStream out = new DataOutputStream(client.getOutputStream());
+            out.writeInt(fileBytes.length);
+            out.write(fileBytes);
 
+
+        } catch (IOException e) {
+
+
+        }
     }
 
-    public void create() {
+    public void create(File file) {
+        OutputStream outToServer = null;
+        try {
+            outToServer = client.getOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
+            dataOutputStream.writeUTF("CREATE");
+
+            var fileBytes= ByteSerializer.serialize(file);
+            DataOutputStream out = new DataOutputStream(client.getOutputStream());
+            out.writeInt(fileBytes.length);
+            out.write(fileBytes);
+
+
+        } catch (IOException e) {
+
+
+        }
 
     }
 
     public File read(int id) {
-        try{
+       File file = null;
+        try {
+            OutputStream outToServer = client.getOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
             dataOutputStream.writeUTF("READ");
-            dataOutputStream.writeUTF(Integer.toString(id));
+            dataOutputStream.writeInt(id);
 
+            InputStream inFromServer = client.getInputStream();
+            DataInputStream dataInputStream = new DataInputStream(inFromServer);
+
+            int length = dataInputStream.readInt();                    // read length of incoming message
+            if(length>0) {
+                byte[] result = new byte[length];
+                dataInputStream.readFully(result, 0, result.length); // read the message
+                file = (File)ByteSerializer.deserialize(result);
+            }
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return file;
+    }
+
+
+
+    public ArrayList<String> readHeaders() {
+        ArrayList<String> headers = new ArrayList<String>();
+        try{
+
+            OutputStream outToServer = client.getOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(outToServer);
+            dataOutputStream.writeUTF("READ_HEADERS");
+
+            InputStream inFromServer = client.getInputStream();
+            DataInputStream dataInputStream = new DataInputStream(inFromServer);
+
+            int length = dataInputStream.readInt();                    // read length of incoming message
+            if(length>0) {
+                byte[] result = new byte[length];
+                dataInputStream.readFully(result, 0, result.length); // read the message
+
+                headers = (ArrayList<String>)ByteSerializer.deserialize(result);
+            }
         }
         catch (Exception ex){
 
         }
-        return null;
-    }
 
-    public ArrayList<String> readHeaders() {
-        ArrayList<String> headers = new ArrayList<String>();
-        try {
-            dataOutputStream.writeUTF("READ_HEADERS");
-            headers = (ArrayList<String>)ByteSerializer.deserialize(dataInputStream.readAllBytes());
-        } catch (Exception ex) {
-
-        }
         return headers;
     }
 }

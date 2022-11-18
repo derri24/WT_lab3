@@ -35,7 +35,7 @@ public class FileRepository implements BaseRepository {
         var files =  XmlSerializer.readAll();
         var headers = new ArrayList<String>();
         for (var file : files) {
-            String header = file.getId()+" "+file.getName()+" "+file.getLastName()+" "+file.getLastName();
+            String header = file.getId()+" "+file.getLastName()+" "+file.getName()+" "+file.getMiddleName();
             headers.add(header);
         }
         return headers;

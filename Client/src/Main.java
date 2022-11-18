@@ -1,5 +1,6 @@
 import providers.SocketProvider;
 import serializer.ByteSerializer;
+import entities.File;
 
 import java.io.*;
 import java.net.Socket;
@@ -9,31 +10,31 @@ import java.util.Scanner;
 public class Main {
     public static int chooseAdministratorActivity() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Choose activity: \n1.Read\n2.Create\n3.Update");
+        System.out.println("\nChoose activity: \n0.Read headers\n1.Read\n2.Create\n3.Update");
         int activity = in.nextInt();
-        if (activity == 1 || activity == 2 || activity == 3)
+        if (activity==0||activity == 1 || activity == 2 || activity == 3)
             return activity;
         else {
-            System.out.println("Error! You should enter '1' or '2' or '3'");
+            System.out.println("Error! You should enter '0' or '1' or '2' or '3'");
             return chooseAdministratorActivity();
         }
     }
 
     public static int chooseClientActivity() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Choose activity: \n1.Read");
+        System.out.println("\nChoose activity: \n0.Read headers\n1.Read");
         int activity = in.nextInt();
         if (activity == 1)
             return activity;
         else {
-            System.out.println("Error! You should enter '1'");
+            System.out.println("Error! You should enter '0' or '1'");
             return chooseClientActivity();
         }
     }
 
     private static int role;
 
-    public static int chooseRole() {
+    public static int chooseActivity() {
         Scanner in = new Scanner(System.in);
         //write headers
         role = in.nextInt();
@@ -43,150 +44,126 @@ public class Main {
             return chooseClientActivity();
         else {
             System.out.println("Error! You should enter '1' or '2'");
-            return chooseRole();
+            return chooseActivity();
         }
     }
-
-//    public static void main(String[] args) throws IOException, ClassNotFoundException {
-//        System.out.println("Hello!This program allows you to work with students' personal files.\nChoose your role(write number): \n1.Administrator\n2.Client");
-//        String serverName = "localhost";
-//        int port = 6665;
-//
-//        Socket client = new Socket(serverName, port);
-//        OutputStream outToServer = client.getOutputStream();
-//        DataOutputStream out = new DataOutputStream(outToServer);
-//        out.writeUTF("READ_HEADERS");
-//
-//            InputStream inFromServer = client.getInputStream();
-//            DataInputStream in = new DataInputStream(inFromServer);
-//
-//           ByteArrayInputStream b = new ByteArrayInputStream(in.readAllBytes());
-//           ObjectInputStream o = new ObjectInputStream(b);
-//var a=o.readObject();
-//        var activity = chooseRole();
-//        if (activity == 1) {
-//
-//        } else if (activity == 2) {
-//
-//        } else if (activity == 3) {
-//
-//        }
-//
-//    }
 
     private static void printHeaders(ArrayList<String> headers) {
         for (var header : headers)
             System.out.println(header);
     }
 
-    private static void repeatChooseActivity(){
+    private static int repeatChooseActivity() {
+        int activity;
         if (role == 1)
-            chooseAdministratorActivity();
+            activity= chooseAdministratorActivity();
         else
-            chooseClientActivity();
+            activity=chooseClientActivity();
+        return activity;
+    }
+
+    private static void printFile(File file) {
+
+        System.out.println("Id: " + file.getId() +
+                "\nName: " + file.getName() +
+                "\nLast name: " + file.getLastName() +
+                "\nMiddle name: " + file.getMiddleName() +
+                "\nAge: " + file.getAge() +
+                "\nPhone number: " + file.getPhoneNumber() +
+                "\nAddress: " + file.getAddress());
+    }
+
+    private static File updateFile() {
+        Scanner sc = new Scanner(System.in);
+        File file = new File();
+
+        System.out.println("Input Id: ");
+        file.setId(sc.nextInt());
+
+        System.out.println("Input name: ");
+        file.setName(sc.next());
+
+        System.out.println("Input last name: ");
+        file.setLastName(sc.next());
+
+        System.out.println("Input middle name: ");
+        file.setMiddleName(sc.next());
+
+        System.out.println("Input age: ");
+        file.setAge(sc.nextInt());
+
+        System.out.println("Input phone number: ");
+        file.setPhoneNumber(sc.nextInt());
+
+        System.out.println("Input address: ");
+        file.setAddress(sc.next());
+
+        return file;
+    }
+    private static File createFile() {
+        Scanner sc = new Scanner(System.in);
+        File file = new File();
+        System.out.println("Input file id for update: ");
+        int id = sc.nextInt();
+        file.setId(id);
+
+        System.out.println("Input name: ");
+        file.setName(sc.next());
+
+        System.out.println("Input last name: ");
+        file.setLastName(sc.next());
+
+        System.out.println("Input middle name: ");
+        file.setMiddleName(sc.next());
+
+        System.out.println("Input age: ");
+        file.setAge(sc.nextInt());
+
+        System.out.println("Input phone number: ");
+        file.setPhoneNumber(sc.nextInt());
+
+        System.out.println("Input address: ");
+        file.setAddress(sc.next());
+
+        return file;
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner in = new Scanner(System.in);
 
         System.out.println("Hello!This program allows you to work with students' personal files.\nChoose your role(write number): \n1.Administrator\n2.Client");
-        var activity = chooseRole();
+        var activity = chooseActivity();
         SocketProvider socketProvider = new SocketProvider();
-        var headers = socketProvider.readHeaders();
-        System.out.println("List of files: ");
-        printHeaders(headers);
 
-        if (activity == 1) {
-            System.out.println("Input file id: ");
-            int id = in.nextInt();
-           var file= socketProvider.read(id);
-            repeatChooseActivity();
-        } else if (activity == 2) {
+        while (activity!=4){
+            if (activity == 0) {
+                var headers = socketProvider.readHeaders();
+                System.out.println("List of files: ");
+                printHeaders(headers);
+                activity= repeatChooseActivity();
+            }
+            if (activity == 1) {
+                System.out.println("Input file id: ");
+                int id = in.nextInt();
+                var file = socketProvider.read(id);
+                printFile(file);
+                activity = repeatChooseActivity();
+            } else if (activity == 2) {
+                var file = createFile();
+                socketProvider.create(file);
+                System.out.println("Success creating!");
+                activity = repeatChooseActivity();
+            } else if (activity == 3) {
 
-            repeatChooseActivity();
-        } else if (activity == 3) {
-
-            repeatChooseActivity();
+                var file = updateFile();
+                socketProvider.update(file);
+                System.out.println("Success updating!");
+                activity =  repeatChooseActivity();
+            }
         }
 
-
-//        String serverName = "localhost";
-//        int port = 6665;
-//        try {
-//            Socket client = new Socket(serverName, port);
-//            OutputStream outToServer = client.getOutputStream();
-//            DataOutputStream out = new DataOutputStream(outToServer);
-//
-//            InputStream inFromServer = client.getInputStream();
-//            DataInputStream in = new DataInputStream(inFromServer);
-//
-//            //
-//            out.writeUTF("READ_HEADERS");
-//
-//            ArrayList<String> headers = (ArrayList<String>) ByteSerializer.deserialize(in.readAllBytes());
-//            for (var header : headers)
-//                System.out.println(header);
-//            //
-//            if (activity == 1) {
-//                out.writeUTF("READ");
-//                var ob=ByteSerializer.serialize(1);
-//                out.write(ob);
-//                var files = (ArrayList<String>) ByteSerializer.deserialize(in.readAllBytes());
-//                for (var file : files) {
-//
-//                }
-//                if (role == 1) {
-//                    chooseAdministratorActivity();
-//
-//                } else {
-//                    chooseClientActivity();
-//                }
-//
-//
-//            } else if (activity == 2) {
-//                out.writeUTF("CREATE");
-//
-//            } else if (activity == 3) {
-//                out.writeUTF("UPDATE");
-//
-//            }
-//
-//
-//            client.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
+       // while (true) ;
     }
 }
-//    public static void main(String [] args) {
-//        String serverName ="localhost";
-//        int port = 6665;
-//        try {
-//            System.out.println("Подключение к " + serverName + " на порт " + port);
-//            Socket client = new Socket(serverName, port);
-//
-//            System.out.println("Просто подключается к " + client.getRemoteSocketAddress());
-//            OutputStream outToServer = client.getOutputStream();
-//            DataOutputStream out = new DataOutputStream(outToServer);
-//
-//            out.writeUTF("Привет из " + client.getLocalSocketAddress());
-//            InputStream inFromServer = client.getInputStream();
-//            DataInputStream in = new DataInputStream(inFromServer);
-//
-//           ByteArrayInputStream b = new ByteArrayInputStream(in.readAllBytes());
-//           ObjectInputStream o = new ObjectInputStream(b);
-//var a=o.readObject();
-//
-//
-//            System.out.println("Сервер ответил " + in.readUTF());
-//           // client.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//}
+
